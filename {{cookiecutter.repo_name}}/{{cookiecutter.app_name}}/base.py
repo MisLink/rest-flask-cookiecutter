@@ -13,8 +13,9 @@ class MethodView(FlaskMethodView):
     def dispatch_request(self, *args, **kwargs):
         response = super().dispatch_request(*args, **kwargs)
         try:
-            json = {"data": response, "code": 200, "timestamp": time.time()}
-            response = jsonify(json)
+            response = jsonify(
+                {"data": response, "code": 200, "timestamp": time.time()}
+            )
         except Exception:
             pass
         return response
