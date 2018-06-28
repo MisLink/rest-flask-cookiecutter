@@ -9,11 +9,7 @@ class APIError(HTTPException):
         self.code = code
 
     def to_dict(self):
-        return {
-            "code": self.code,
-            "description": self.description,
-            "timestamp": time.time(),
-        }
+        return {"code": self.code, "description": self.description}
 
     def get_response(self, environ=None):
         return make_response(jsonify(self.to_dict()), self.code)
