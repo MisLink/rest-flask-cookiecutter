@@ -1,6 +1,6 @@
 class Config:
-    SECRET_KEY = b"5X\xbd\xec\xddcL\xa9\x19\xe6\x81\x86\x833\xa9\xfa"
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    SECRET_KEY = "python -c 'import os; print(os.urandom(16))'"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class DevConfig(Config):
@@ -12,7 +12,7 @@ class TestConfig(Config):
 
 
 class ProdConfig(Config):
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    pass
 
 
 class PreConfig(ProdConfig):

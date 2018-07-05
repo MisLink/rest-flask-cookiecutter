@@ -7,13 +7,14 @@ name = "pypi"
 flask = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
+flask-shell-ipython = "*"
 
 [dev-packages]
 "flake8" = "*"
 black = "*"
 mypy = "*"
 "flake8-bugbear" = "*"
-ipython = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.6"

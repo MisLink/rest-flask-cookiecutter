@@ -1,5 +1,5 @@
 from .api import api
 
 
-def register_blueprints(app):
+def init_app(app):
     app.register_blueprint(api)

@@ -6,6 +6,6 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 
-def register_extensions(app):
+def init_app(app):
     db.init_app(app)
     migrate.init_app(app, db)
