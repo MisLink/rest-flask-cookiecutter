@@ -1,9 +1,9 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime
+from sqlalchemy import Column, DateTime, Integer, Integer
 from sqlalchemy.ext.hybrid import hybrid_property
 
-from .extensions import db
+from {{cookiecutter.app_name}}.extensions import db
 
 
 class TimestampMixin:
@@ -45,6 +45,13 @@ class ActiveRecordMixin:
     def delete(self):
         db.session.delete(self)
         db.session.flush()
+
+
+class PrimaryKey:
+    id = Column(Integer, primary_key=True)
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}(id={self.id})"
 
 
 class Model(db.Model, ActiveRecordMixin):

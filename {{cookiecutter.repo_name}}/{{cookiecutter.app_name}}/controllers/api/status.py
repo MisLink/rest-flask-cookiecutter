@@ -1,4 +1,4 @@
-from ...base import MethodView
+from {{cookiecutter.app_name}}.base import MethodView
 
 
 class Status(MethodView):

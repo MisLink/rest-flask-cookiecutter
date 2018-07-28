@@ -15,8 +15,4 @@ class ProdConfig(Config):
     pass
 
 
-class PreConfig(ProdConfig):
-    pass
-
-
-configs = {"dev": DevConfig, "pre": PreConfig, "prod": ProdConfig, "test": TestConfig}
+configs = {"dev": DevConfig, "prod": ProdConfig, "test": TestConfig}

@@ -8,16 +8,11 @@ flask = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-shell-ipython = "*"
+blinker = "*"
+simplejson = "*"
 
 [dev-packages]
-"flake8" = "*"
-black = "*"
-mypy = "*"
-"flake8-bugbear" = "*"
-python-dotenv = "*"
+watchdog = "*"
 
 [requires]
 python_version = "3.6"
-
-[pipenv]
-allow_prereleases = true
