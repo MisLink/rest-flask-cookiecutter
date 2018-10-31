@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "{{cookiecutter.repo_name}}"
+version = "0.1.0"
+description = "Restful api scaffold created by rest-flask-cookiecutter."
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+flask = "^1.0"
+flask-sqlalchemy = "^2.3"
+flask-migrate = "^2.3"
+blinker = "^1.4"
+simplejson = "^3.16"
+python-dotenv = "^0.9.1"
+
+[tool.poetry.dev-dependencies]
+flask-shell-ipython = "^0.3.1"
+watchdog = "^0.9.0"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
