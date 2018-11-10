@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Integer, Integer
+from sqlalchemy import Column, DateTime, Integer
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from {{cookiecutter.app_name}}.extensions import db
@@ -19,11 +19,11 @@ class SoftDeleteMixin:
         return self.deleted_at is not None
 
     @deleted.expression
-    def deleted(self):
+    def deleted_expression(self):
         return self.deleted_at.isnot(None)
 
     @deleted.setter
-    def deleted(self, status):
+    def deleted_setter(self, status):
         self.deleted_at = datetime.utcnow() if status else None
 
 
