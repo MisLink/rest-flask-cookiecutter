@@ -1,12 +1,16 @@
-from celery import Celery as _Celery
+from celery import Celery as _Celery, _state
 
 
 class Celery(_Celery):
     def __init__(self, app=None):
-        if app:
+        self._original_register_app = _state._register_app
+        _state._register_app = lambda _: None
+        super().__init__()
+        if app is not None:
             self.init_app(app)
 
     def init_app(self, app):
+        _state._register_app = self._original_register_app
         TaskBase = self.Task
 
         class ContextTask(TaskBase):

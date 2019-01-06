@@ -18,13 +18,13 @@ class SoftDeleteMixin:
     def deleted(self):
         return self.deleted_at is not None
 
-    @deleted.expression
-    def deleted_expression(self):
+    @deleted.expression  # type: ignore
+    def deleted(self):
         return self.deleted_at.isnot(None)
 
-    @deleted.setter
-    def deleted_setter(self, status):
-        self.deleted_at = datetime.utcnow() if status else None
+    @deleted.setter  # type: ignore
+    def deleted(self, status):
+        self.deleted_at = datetime.now() if status else None
 
 
 class ActiveRecordMixin:
