@@ -12,9 +12,6 @@ flask-migrate = "^2.3"
 blinker = "^1.4"
 simplejson = "^3.16"
 python-dotenv = "^0.9.1"
-{% if cookiecutter.task_queue == "celery" -%}
-celery = "^4.2"
-{%- endif %}
 
 [tool.poetry.dev-dependencies]
 flask-shell-ipython = "^0.3.1"

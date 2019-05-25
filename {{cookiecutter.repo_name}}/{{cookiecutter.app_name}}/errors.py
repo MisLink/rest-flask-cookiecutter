@@ -1,19 +1,27 @@
-from werkzeug.exceptions import HTTPException
-from flask import make_response, jsonify
+from typing import Optional
+import warnings
+
+from flask import Flask
+from flask import jsonify
+from flask import make_response
 
 
-class APIError(HTTPException):
-    def __init__(self, description=None, code=None):
+class APIError(Exception):
+    code: Optional[int] = None
+
+    def __init__(self, description: str = ""):
         self.description = description
-        self.code = code
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
+        if self.code is None:
+            warnings.warn("Not set HTTP code, the default is 400.")
+            self.code = 400
         return {"code": self.code, "description": self.description}
-
-    def get_response(self, environ=None):
-        return make_response(jsonify(self.to_dict()), self.code)
 
 
 class BadRequest(APIError):
-    def __init__(self, description):
-        super().__init__(description=description, code=400)
+    code = 400
+
+
+def init_app(app: Flask) -> None:
+    app.errorhandler(APIError)(lambda e: make_response(jsonify(e.to_dict()), e.code))

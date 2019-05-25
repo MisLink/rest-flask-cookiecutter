@@ -1,12 +1,16 @@
 from flask import Flask
+
 from . import controllers
+from . import errors
 from . import extensions
+from . import models
 
 
-def create_app(config):
-    app = Flask(__name__, instance_relative_config=True)
-    app.config.from_object(config)
-    app.config.from_pyfile("local_config.py", silent=True)  # load local config
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object("{{cookiecutter.app_name}}.config")
+    errors.init_app(app)
     extensions.init_app(app)
     controllers.init_app(app)
+    models.init_app(app)
     return app

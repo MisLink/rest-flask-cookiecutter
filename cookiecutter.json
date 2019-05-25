@@ -1,8 +1,4 @@
 {
-    "repo_name": "your-repo-name",
-    "app_name": "your_app_name",
-    "task_queue": [
-        "celery",
-        "none"
-    ]
+  "repo_name": "your-repo-name",
+  "app_name": "your_app_name"
 }

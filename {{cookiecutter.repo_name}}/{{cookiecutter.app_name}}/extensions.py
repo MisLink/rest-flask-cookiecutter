@@ -1,19 +1,11 @@
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
 from flask_migrate import Migrate
-{% if cookiecutter.task_queue == "celery" -%}
-from flask_celery import Celery
-{%- endif %}
+from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 migrate = Migrate()
-{% if cookiecutter.task_queue == "celery" -%}
-celery = Celery()
-{%- endif %}
 
 
-def init_app(app):
+def init_app(app: Flask) -> None:
     db.init_app(app)
     migrate.init_app(app, db)
-    {% if cookiecutter.task_queue == "celery" -%}
-    celery.init_app(app)
-    {%- endif %}

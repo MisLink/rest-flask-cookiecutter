@@ -1,4 +1,5 @@
-from flask import jsonify, Response
+from flask import jsonify
+from flask import Response
 from flask.views import MethodView as FlaskMethodView
 
 

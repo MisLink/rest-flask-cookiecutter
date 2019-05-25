@@ -1,23 +1,13 @@
-class Config:
-    SECRET_KEY = "python -c 'import os; print(os.urandom(16))'"
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+import os
 
-    {% if cookiecutter.task_queue == "celery" -%}
-    CELERY_BROKER_URL = ""
-    CELERY_INCLUDE = ["{{cookiecutter.app_name}}.tasks"]
-    {%- endif %}
+from flask.cli import load_dotenv
 
+load_dotenv()
+# Baisc
+ENV = os.getenv("FLASK_ENV") or "dev"
+TESTING = True if ENV == "test" else False
+SECRET_KEY = os.getenv("SECRET_KEY")
 
-class DevConfig(Config):
-    pass
-
-
-class TestConfig(Config):
-    TESTING = True
-
-
-class ProdConfig(Config):
-    pass
-
-
-configs = {"dev": DevConfig, "prod": ProdConfig, "test": TestConfig}
+# SQLAlchemy
+SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
+SQLALCHEMY_TRACK_MODIFICATIONS = False
