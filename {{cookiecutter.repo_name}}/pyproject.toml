@@ -12,6 +12,7 @@ flask-migrate = "^2.3"
 blinker = "^1.4"
 simplejson = "^3.16"
 python-dotenv = "^0.9.1"
+celery = "^4.3"
 
 [tool.poetry.dev-dependencies]
 flask-shell-ipython = "^0.3.1"

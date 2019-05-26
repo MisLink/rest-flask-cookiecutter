@@ -1,5 +1,6 @@
 from flask import Flask
 
+from . import celery
 from . import controllers
 from . import errors
 from . import extensions
@@ -13,4 +14,5 @@ def create_app():
     extensions.init_app(app)
     controllers.init_app(app)
     models.init_app(app)
+    celery.init_app(app)
     return app
