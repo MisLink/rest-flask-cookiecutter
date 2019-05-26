@@ -45,3 +45,9 @@
    api.status  GET      /api/1.0/status
    static      GET      /static/<path:filename>
    ```
+
+## To-Do
+
+- [ ] write request log
+- [ ] improve atomic
+- and so on...
