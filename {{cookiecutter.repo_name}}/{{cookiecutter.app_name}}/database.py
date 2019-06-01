@@ -1,10 +1,7 @@
-from __future__ import annotations
-
 from datetime import datetime
 from functools import wraps
 from typing import Callable
 from typing import Optional
-from typing import Union
 
 from sqlalchemy import Column
 from sqlalchemy import DateTime
@@ -15,7 +12,9 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import Session
 from sqlalchemy.util import safe_reraise
 
-from {{cookiecutter.app_name}}.extensions import db
+from your_app_name.extensions import db
+
+default_session = db.session
 
 
 class TimestampMixin:
@@ -37,7 +36,7 @@ class _Actives(Query):
 
 class SoftDeleteMixin:
     deleted_at = Column(DateTime, default=None)
-    actives = db.session.query_property(query_cls=_Actives)
+    actives = default_session.query_property(query_cls=_Actives)
 
     @hybrid_property
     def deleted(self):
@@ -54,8 +53,8 @@ class SoftDeleteMixin:
 
 class ActiveRecordMixin:
     def save(self):
-        db.session.add(self)
-        db.session.flush()
+        default_session.add(self)
+        default_session.flush()
         return self
 
     @classmethod
@@ -68,8 +67,8 @@ class ActiveRecordMixin:
         return self.save()
 
     def delete(self):
-        db.session.delete(self)
-        db.session.flush()
+        default_session.delete(self)
+        default_session.flush()
 
 
 class PrimaryKey:
@@ -84,11 +83,11 @@ class Model(db.Model, ActiveRecordMixin):
 
 
 class _Atomic:
-    def __init__(self, session: Union[scoped_session, Session]):
+    def __init__(self, session):
         self.session = session
 
-    def __enter__(self) -> _Atomic:
-        return self
+    def __enter__(self):
+        return self.session
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if exc_type is None:
@@ -105,10 +104,7 @@ class _Atomic:
 
     def transaction(self, func: Optional[Callable], *args, **kwargs):
         try:
-            if func is None:
-                result = None
-            else:
-                result = func(*args, **kwargs)
+            result = func(*args, **kwargs) if func is not None else None
             self.session.commit()
         except BaseException:
             with safe_reraise():
@@ -118,7 +114,7 @@ class _Atomic:
 
 
 # TODO: Support savepoint
-def atomic(session: Union[scoped_session, Session, Callable, None] = None):
+def atomic(session=default_session):
     """
     with atomic():  # None
         pass
@@ -134,6 +130,10 @@ def atomic(session: Union[scoped_session, Session, Callable, None] = None):
     def x():
         pass
     """
-    if not isinstance(session, (scoped_session, Session)) and callable(session):
-        return _Atomic(db.session)(session)
-    return _Atomic(session if session is not None else db.session)
+    if (
+        not isinstance(session, (Session, scoped_session))
+        and session is not Session
+        and session is not scoped_session
+    ) and callable(session):
+        return _Atomic(default_session)(session)
+    return _Atomic(session if session is not None else default_session)
