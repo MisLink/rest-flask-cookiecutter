@@ -10,7 +10,6 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import Query
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import Session
-from sqlalchemy.util import safe_reraise
 
 from your_app_name.extensions import db
 
@@ -107,8 +106,8 @@ class _Atomic:
             result = func(*args, **kwargs) if func is not None else None
             self.session.commit()
         except BaseException:
-            with safe_reraise():
-                self.session.rollback()
+            self.session.rollback()
+            raise
         else:
             return result
 
@@ -136,4 +135,4 @@ def atomic(session=default_session):
         and session is not scoped_session
     ) and callable(session):
         return _Atomic(default_session)(session)
-    return _Atomic(session if session is not None else default_session)
+    return _Atomic(session)
