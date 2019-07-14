@@ -11,7 +11,7 @@ from sqlalchemy.orm import Query
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import Session
 
-from your_app_name.extensions import db
+from {{cookiecutter.app_name}}.extensions import db
 
 default_session = db.session
 
