@@ -1,4 +1,4 @@
-from . import celery
+from .celery import celery
 
 
 @celery.task

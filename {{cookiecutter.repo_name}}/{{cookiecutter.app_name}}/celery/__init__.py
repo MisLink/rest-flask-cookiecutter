@@ -1,13 +1,15 @@
-from celery import Celery
 from celery import Task
 from flask import Flask
 
-celery = Celery()
+from . import tasks
+from .celery import celery
+
+__all__ = ["tasks"]
 
 
 def init_app(app: Flask):
     celery.main = app.import_name
-    celery.conf.update(app.config.get_namespace("CELERY_"))
+    celery.config_from_object(app.config, namespace="CELERY")
 
     class ContextTask(Task):
         def __call__(self, *args, **kwargs):
